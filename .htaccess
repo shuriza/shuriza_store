@@ -1,0 +1,10 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Jika URL belum mengandung /public/, alihkan ke /public/
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ /public/$1 [L]
+
+    # Bila user membuka "/", jalankan public/index.php
+    DirectoryIndex /public/index.php
+</IfModule>
