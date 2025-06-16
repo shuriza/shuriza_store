@@ -54,7 +54,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form method="post" action="{{url('proses_ganti_password')}}">
+                    <form method="post" action=" {{url('proses_ganti_password')}}">
                         @csrf
 
                         <div class="form-group">

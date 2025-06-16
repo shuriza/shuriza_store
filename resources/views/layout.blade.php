@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
-    @if(Request::path() == '/' && Auth::user()->role_id == 1 || Request::path() == 'menu_produk' || Request::path() ==
+    @if(Request::path() == '/dashboard' && Auth::user()->role_id == 1 || Request::path() == 'menu_produk' || Request::path() ==
     'produk_terjual' || Request::path() == 'bukti_pembayaran' || Request::path() == 'extract_screenshots')
     <link rel="stylesheet" href="{{asset('assets/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/datatables.net-select-bs4/css/select.bootstrap4.min.css')}}">
@@ -67,7 +67,7 @@
                 <aside id="sidebar-wrapper">
 
                     <div class="sidebar-brand">
-                        <a href="{{url('/')}}">Tokoku</a>
+                        <a href="{{url('/')}}">Brambang</a>
                     </div>
 
                     <div class="sidebar-brand sidebar-brand-sm">
@@ -77,9 +77,9 @@
                     <ul class="sidebar-menu">
                         <li class="menu-header">{{ (Auth::user()->role_id == 1 ? 'Dashboard' : 'Profile') }}</li>
 
-                        <li class="nav-item {{Request::path() == '/' || Request::path() == 'profile_customer/' . Session::get('id')
+                        <li class="nav-item {{Request::path() == '/dashboard' || Request::path() == 'profile_customer/' . Session::get('id')
                          ? 'active' : ''}}"><a
-                                href="{{ (Auth::user()->role_id == 1 ? url('/') : url('profile_customer/' . Session::get('id')))  }}"
+                                href="{{ (Auth::user()->role_id == 1 ? url('/dashboard') : url('profile_customer/' . Session::get('id')))  }}"
                                 class="nav-link">
                                 @if(Auth::user()->role_id == 1)
                                 <i class="bi bi-speedometer pl-3"></i><span>Dashboard</span></a>
@@ -128,6 +128,14 @@
                             <a href="{{url('extract_screenshots')}}" class="nav-link"><i
                                     class="bi bi-file-zip-fill pl-3"></i>
                                 <span>Extract Screenshots</span></a>
+                        </li>
+                        @endif
+                        @if(Auth::user()->role_id == 1)
+                        <li class="nav-item @if(Request::path() == 'admin/about/edit') active @endif">
+                            <a href="{{ route('about.edit') }}" class="nav-link">
+                                <i class="bi bi-file-earmark-text pl-3"></i>
+                                <span>Edit About</span>
+                            </a>
                         </li>
                         @endif
                     </ul>

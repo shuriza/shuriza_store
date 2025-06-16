@@ -8,4 +8,7 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        open: '/login', // Ganti sesuai URL yang ingin kamu buka otomatis
+    },
 });

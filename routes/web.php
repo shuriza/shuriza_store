@@ -14,6 +14,10 @@ use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\MidtransController;
+
+
 
 
 /*
@@ -27,10 +31,39 @@ use Illuminate\Support\Str;
 |
 */
 
+Route::get('/', function () {
+    return view('home');
+    
+});
+
+Route::get('/about', function () {
+    return view('about');
+    
+});
+Route::get('/services', function () {
+    return view('services');
+    
+});
+Route::get('/contact', function () {
+    return view('contact');
+    
+});
+
+
+
+// Webhook endpoint Midtrans (tanpa auth & CSRF)
+// Route::post('/midtrans/notification', [PembayaranController::class, 'notificationHandler'])
+//      ->name('midtrans.notification');
+
+// // routes/web.php
+// Route::post('/midtrans/callback', [MidtransController::class, 'callback']);
+
+
+
 Route::middleware('auth')->group(function () {
 
     Route::controller(DashboardController::class)->group(function () {
-        Route::get('/', 'index')->middleware('prevent.customer');
+        Route::get('/dashboard', 'index')->middleware('prevent.customer');
     });
 
     Route::controller(CustomerController::class)->group(function () {
@@ -140,3 +173,11 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::resource('menu_produk', ProductController::class, ['except' => ['index', 'show']])->middleware('prevent.customer');
+
+Route::get('/about', [AboutController::class, 'show'])->name('about');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/about/edit', [AboutController::class, 'edit'])->name('about.edit');
+    Route::post('/admin/about/update', [AboutController::class, 'update'])->name('about.update');
+});
+

@@ -103,9 +103,10 @@ class AuthController extends Controller
                 $userFromDatabase->name,
                 $userFromDatabase->email
             );
-            $this->setSessionFlash('success', 'Selamat datang di Tokoku.');
-            return ($userFromDatabase->role_id == 1 ? redirect('/') :
-                redirect('profile_customer/' . $userFromDatabase->id));
+            $this->setSessionFlash('success', 'Selamat datang di Brambang.');
+            return ($userFromDatabase->role_id == 1
+                ? redirect('/dashboard')
+                : redirect('profile_customer/' . $userFromDatabase->id));
         } else {
             $this->setSessionFlash('error', 'Proses login gagal. Pastikan dengan memasukkan identitas dengan benar.');
             return redirect('/login')->withErrors($validator)
@@ -163,7 +164,9 @@ class AuthController extends Controller
     {
 
         $randomString = $this->generateRandomString(15);
-        $userFromGoogle = Socialite::driver('google')->user();
+        $userFromGoogle = Socialite::driver('google')
+        ->stateless()           // <<< tambahkan ini    
+        ->user();
         $userFromDatabase = User::where('email', $userFromGoogle->getEmail())->first();
 
         if (!$userFromDatabase) {
@@ -190,7 +193,7 @@ class AuthController extends Controller
                 $newUser->name,
                 $newUser->email
             );
-            $this->setSessionFlash('success', 'Berhasil mendaftar. Selamat datang di Tokoku.');
+            $this->setSessionFlash('success', 'Berhasil mendaftar. Selamat datang di .');
             return ($newUser->role_id == 1 ? redirect('/') :
                 redirect('profile_customer/' . $newUser->id));
 
@@ -205,7 +208,7 @@ class AuthController extends Controller
                 $userFromDatabase->name,
                 $userFromDatabase->email
             );
-            $this->setSessionFlash('success', 'Selamat datang di Tokoku.');
+            $this->setSessionFlash('success', 'Selamat datang di .');
             return ($userFromDatabase->role_id == 1 ? redirect('/') :
                 redirect('profile_customer/' . $userFromDatabase->id));
         }
