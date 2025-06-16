@@ -9,13 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->longText('about')->nullable();
+            $table->foreign('role_id')
+                  ->references('id')
+                  ->on('tbl_roles')
+                  ->onDelete('cascade');
         });
     }
-
 
     /**
      * Reverse the migrations.
@@ -23,9 +25,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->dropForeign(['role_id']);
         });
     }
 };
-
-

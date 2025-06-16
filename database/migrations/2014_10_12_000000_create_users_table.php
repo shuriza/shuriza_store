@@ -19,9 +19,17 @@ return new class extends Migration
             $table->string('password');
             $table->string('profile_picture');
             $table->rememberToken();
+
+            // foreign key temporarily removed to ensure tbl_roles exists
             $table->bigInteger('role_id')->unsigned();
+
+            $table->longText('about')->nullable();
+            $table->longText('about_produk_text')->nullable();
+            $table->string('about_produk_image')->nullable();
+            $table->longText('about_petani_text')->nullable();
+            $table->string('about_petani_image')->nullable();
+
             $table->timestamps();
-            $table->foreign('role_id')->references('id')->on('tbl_roles');
         });
     }
 
